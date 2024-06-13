@@ -8,9 +8,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
-COPY ["../Application/Application.csproj", "Application/"]
-COPY ["../Domain/Domain.csproj", "Domain/"]
-
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "AuthService.API/AuthService.API.csproj"
 
 WORKDIR "/src/AuthService.API"

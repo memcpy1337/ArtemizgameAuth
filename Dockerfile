@@ -17,11 +17,11 @@ RUN dotnet restore "AuthService.API/AuthService.API.csproj"
 WORKDIR "/src/AuthService.API"
 COPY . .
 
-RUN dotnet build "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "AuthService.API.csproj" -c $BUILD_CONFIGURATION -p:PublishDir=/app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish --no-restore
+RUN dotnet publish "AuthService.API.csproj" -c $BUILD_CONFIGURATION -p:PublishDir=/app/publish --no-restore
 
 
 FROM base AS final

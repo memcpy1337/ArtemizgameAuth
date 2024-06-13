@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	<AssemblyName>AuthService.API.Build</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>662d38f0-3928-49e8-af69-ea0d18c3921e</UserSecretsId>

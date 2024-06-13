@@ -1,5 +1,3 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
@@ -9,12 +7,12 @@ EXPOSE 6024
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
-COPY ["Application/Application.csproj", "Application/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["../AuthService.API/AuthService.API.csproj", "AuthService.API/"]
+COPY ["../Application/Application.csproj", "Application/"]
+COPY ["../Domain/Domain.csproj", "Domain/"]
+COPY ["../Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "./AuthService.API/AuthService.API.csproj"
-COPY . .
+COPY .. .
 WORKDIR "/src/AuthService.API"
 RUN dotnet build "./AuthService.API.csproj" -c Release -o /app/build
 

@@ -7,20 +7,22 @@ EXPOSE 6024
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API_build/"]
+
+COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-RUN dotnet restore "AuthService.API_build/AuthService.API.csproj"
+RUN dotnet restore "AuthService.API/AuthService.API.csproj"
 
-WORKDIR "/src/AuthService.API_build"
-COPY .. .
+WORKDIR "/src/AuthService.API"
+COPY . .
 
-RUN dotnet build "./AuthService.API.csproj" -c Release -o /app/build
+RUN dotnet build "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish --no-restore -c Release -o /app/publish
+RUN dotnet publish "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish --no-restore
+
 
 FROM base AS final
 WORKDIR /app

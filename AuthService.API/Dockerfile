@@ -13,12 +13,8 @@ WORKDIR /src
 # Copy project files and restore dependencies
 COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
 COPY ["AuthService.API/serilog.json", "AuthService.API/"]
-COPY ["Application/Application.csproj", "Application/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "AuthService.API/AuthService.API.csproj"
-
-# Copy all files and build
+COPY . .
 WORKDIR "/src/AuthService.API"
 COPY . .
 

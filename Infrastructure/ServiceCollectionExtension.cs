@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
@@ -30,7 +31,7 @@ public static class ServiceCollectionExtension
             {
                 string connString = string.Empty;
 #if DEBUG
-                connString = configuration.GetConnectionString("DefaultConnection");
+                connString = configuration.GetSection("ConnectionStrings:DefaultConnection").Value;     
 #else
                 connString = Environment.GetEnvironmentVariable("CONNSTRING");
 #endif

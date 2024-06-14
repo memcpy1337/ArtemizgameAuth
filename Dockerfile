@@ -32,7 +32,4 @@ RUN dotnet publish "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV JWT_ACCESS_TOKEN_SECRET=$JWT_ACCESS_TOKEN_SECRET
-ENV JWT_REFRESH_TOKEN_SECRET=$JWT_REFRESH_TOKEN_SECRET
-ENV CONNSTRING=$CONNSTRING
 ENTRYPOINT ["dotnet", "AuthService.API.Build.dll"]

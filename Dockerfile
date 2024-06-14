@@ -11,6 +11,7 @@ WORKDIR /src
 
 
 COPY ["AuthService.API/AuthService.API.csproj", "AuthService.API/"]
+COPY ["AuthService.API/serilog.json", "AuthService.API/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]

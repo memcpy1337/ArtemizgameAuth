@@ -103,7 +103,5 @@ jobs:
 
 
       - name: Call webhook
-        uses: wei/post-action@v2
-        with:
-          url: ${{ secrets.WEBHOOK_URL }}
-          method: POST
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{}' ${{ secrets.WEBHOOK_URL }}

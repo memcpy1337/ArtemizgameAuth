@@ -16,7 +16,6 @@ COPY ["AuthService.API/serilog.json", "AuthService.API/"]
 RUN dotnet restore "AuthService.API/AuthService.API.csproj"
 COPY . .
 WORKDIR "/src/AuthService.API"
-COPY . .
 
 RUN dotnet build "AuthService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

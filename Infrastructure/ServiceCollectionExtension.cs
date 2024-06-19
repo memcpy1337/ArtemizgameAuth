@@ -2,11 +2,14 @@
 using System.Security.Cryptography;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Infrastructure.Common.Models;
 using Infrastructure.Persistence;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Infrastructure;
@@ -23,6 +26,29 @@ public static class ServiceCollectionExtension
     /// <param name="configuration"><see cref="IConfiguration"/> Interface</param>
     public static void AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
     {
+
+        services.AddMassTransit(busConfig =>
+        {
+            busConfig.SetKebabCaseEndpointNameFormatter(); //user-created-event
+#if DEBUG
+            var settings = new MessageBrokerSettings();
+            configuration.GetSection("MessageBroker").Bind(settings);
+#else
+            var stringSettings = Environment.GetEnvironmentVariable("MessageBroker");
+            var settings = JsonConvert.DeserializeObject<MessageBrokerSettings>(stringSettings);
+#endif
+            busConfig.UsingRabbitMq((context, configuration) =>
+            {
+                configuration.Host(new Uri(settings.Host!), h =>
+                {
+                    h.Username(settings.Username!);
+                    h.Password(settings.Password!);
+                });
+
+                configuration.ConfigureEndpoints(context);
+            });
+        });
+
         if (Convert.ToBoolean(configuration.GetValue<bool>("UseInMemoryDatabase")))
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
         else

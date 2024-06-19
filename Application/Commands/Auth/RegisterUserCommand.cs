@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Auth;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
@@ -15,7 +16,13 @@ public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRe
 internal sealed class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
 {
     private readonly UserManager<User> _userManager;
-    public RegisterUserCommandHandler(UserManager<User> userManager) => _userManager = userManager;
+    private readonly IRegisterService _registerService;
+
+    public RegisterUserCommandHandler(UserManager<User> userManager, IRegisterService registerService)
+    {
+        _userManager = userManager;
+        _registerService = registerService;
+    }
     
     public async Task<IResponse<Unit>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
@@ -27,8 +34,15 @@ internal sealed class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserC
         };
 
         var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.DeviceId);
-        return createResult.Succeeded
-            ? Response.Success(Unit.Value)
-            : Response.Fail<Unit>(createResult.Errors.Select(error => error.Description).ToList());
+
+        if (createResult.Succeeded) 
+        {
+            await _registerService.Registrate(user, cancellationToken);
+            return Response.Success(Unit.Value);
+        }
+        else
+        {
+            return Response.Fail<Unit>(createResult.Errors.Select(error => error.Description).ToList());
+        }
     }
 }

@@ -24,6 +24,7 @@
       <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
       <PackageReference Include="Netjection" Version="1.0.7" />
       <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
     </ItemGroup>
 
     <ItemGroup>

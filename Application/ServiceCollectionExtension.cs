@@ -22,6 +22,8 @@ public static class ServiceCollectionExtension
     /// <param name="configuration"><see cref="IConfiguration"/> Interface</param>
     public static void AddApplication(this IServiceCollection services,IConfiguration configuration)
     {
+        services.AddHttpContextAccessor();
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizedUserContextBehavior<,>));
         services.AddSingleton(TypeAdapterConfig.GlobalSettings);
         services.AddScoped<IMapper, ServiceMapper>();
         services.AddValidatorsFromAssembly(AssemblyReference.Assembly);

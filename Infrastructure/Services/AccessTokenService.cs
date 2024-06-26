@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Application.Common.Interfaces;
 using Application.Common.Settings;
@@ -18,7 +19,8 @@ internal sealed class AccessTokenService : IAccessTokenService
     {
         List<Claim> claims = new()
         {
-            new Claim("id", user.Id)
+            new Claim(JwtRegisteredClaimNames.Jti, user.Id),
+            new Claim(JwtRegisteredClaimNames.Name, user.UserName)
         };
         return _tokenGenerator.Generate(new GenerateTokenRequest(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer,
             _jwtSettings.Audience,

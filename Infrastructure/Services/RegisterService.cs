@@ -3,8 +3,8 @@ using Domain.Entities;
 using MassTransit;
 using System.Threading;
 using System.Threading.Tasks;
-using Contracts;
-using System;
+using Mapster;
+using Contracts.Events.UserEvents;
 
 namespace Infrastructure.Services;
 internal sealed class RegisterService : IRegisterService
@@ -17,11 +17,8 @@ internal sealed class RegisterService : IRegisterService
 
     public async Task Registrate(User user, CancellationToken cancellationToken)
     {
-       await _publishEndpoint.Publish(new UserRegisterEvent()
-       { 
-           Id = user.Id, 
-           Name = user.UserName!, 
-           CreatedOnUtc = DateTime.UtcNow 
-       }, cancellationToken);
+       var userRegEventData = user.Adapt<UserRegisterEvent>();
+
+       await _publishEndpoint.Publish(userRegEventData, cancellationToken);
     }
 }

@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Artemizgame.Contracts" Version="2.1.1" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
@@ -19,7 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\Contracts.csproj" />
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>

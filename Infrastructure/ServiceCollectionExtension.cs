@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Common.Models;
+using Infrastructure.Consumers;
 using Infrastructure.Persistence;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
@@ -37,6 +38,7 @@ public static class ServiceCollectionExtension
             var stringSettings = Environment.GetEnvironmentVariable("MessageBroker");
             var settings = JsonConvert.DeserializeObject<MessageBrokerSettings>(stringSettings);
 #endif
+            busConfig.AddConsumer<TokenServerRequestConsumer>();
             busConfig.UsingRabbitMq((context, configuration) =>
             {
                 configuration.Host(new Uri(settings.Host!), h =>

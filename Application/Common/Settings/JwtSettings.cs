@@ -11,4 +11,5 @@ public class JwtSettings
     public double RefreshTokenExpirationMinutes { get; set; }
     public string Issuer { get; set; }
     public string Audience { get; set; }
+    public double ServerTokenExprirationMinutes { get; set; }
 }

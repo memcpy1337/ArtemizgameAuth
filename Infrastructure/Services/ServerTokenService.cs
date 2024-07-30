@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Settings;
-using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,7 +18,7 @@ public class ServerTokenService : IServerTokenService
     {
         List<Claim> claims = new()
         {
-            new Claim(ClaimTypes.Name, serverId),
+            new Claim(JwtRegisteredClaimNames.NameId, serverId),
         };
         return _tokenGenerator.Generate(new GenerateTokenRequest(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer,
             _jwtSettings.Audience,

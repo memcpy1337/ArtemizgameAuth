@@ -14,11 +14,12 @@ public class ServerTokenService : IServerTokenService
     public ServerTokenService(ITokenGenerator tokenGenerator, JwtSettings jwtSettings) =>
         (_tokenGenerator, _jwtSettings) = (tokenGenerator, jwtSettings);
 
-    public string Generate(string serverId)
+    public string Generate(string serverId, string matchId)
     {
         List<Claim> claims = new()
         {
             new Claim(ClaimTypes.Name, serverId), 
+            new Claim(ClaimTypes.NameIdentifier, matchId)
         };
         return _tokenGenerator.Generate(new GenerateTokenRequest(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer,
             _jwtSettings.Audience,

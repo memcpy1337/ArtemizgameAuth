@@ -27,7 +27,7 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserRequest>
         //    .NotEmpty().NotNull()
         //    .Matches(x=>x.Password);
 
-        RuleFor(x => x.DeviceId).NotEmpty().NotNull().Must(UniqueDevice).WithMessage("User with same device id exist");
+       // RuleFor(x => x.DeviceId).NotEmpty().NotNull().Must(UniqueDevice).WithMessage("User with same device id exist");
 
     }
 

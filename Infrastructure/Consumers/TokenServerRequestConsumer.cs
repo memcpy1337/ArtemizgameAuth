@@ -15,7 +15,7 @@ public class TokenServerRequestConsumer : IConsumer<ServerTokenRequest>
 
     public async Task Consume(ConsumeContext<ServerTokenRequest> context)
     {
-        var token = _serverTokenService.Generate(context.Message.ServerId);
+        var token = _serverTokenService.Generate(context.Message.ServerId, context.Message.MatchId);
 
         await context.RespondAsync(new ServerTokenResponse() { Token = token });
     }

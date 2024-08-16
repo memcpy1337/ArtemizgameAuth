@@ -8,6 +8,7 @@ using Application.Common.Wrappers;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth;
 
@@ -32,6 +33,13 @@ internal sealed class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserC
             DeviceId = request.RegisterUserRequest.DeviceId,
             GameName = request.RegisterUserRequest.GameName
         };
+
+        var exist = await _userManager.Users.AnyAsync(x => x.DeviceId == request.RegisterUserRequest.DeviceId);
+
+        if (exist)
+        {
+            return Response.Success(Unit.Value);
+        }
 
         var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.DeviceId);
 

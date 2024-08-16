@@ -10,5 +10,5 @@ namespace Application.Common.Interfaces;
 [InjectAsScoped]
 public interface IServerTokenService
 {
-    string Generate(string serverId);
+    string Generate(string serverId, string matchId);
 }
